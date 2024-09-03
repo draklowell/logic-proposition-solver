@@ -28,6 +28,13 @@ OPERATORS_WTIH_TWO_ARGUMENTS = [
         Equivalence,
     ),
 ]
+OPERATORS_ORDER = [
+    Conjunction,
+    Disjunction,
+    ExclusiveDisjunction,
+    Implication,
+    Equivalence,
+]
 
 # Create map "word -> formula class" from lists of words
 OPERATORS_WTIH_TWO_ARGUMENTS_MAP = {}
@@ -89,7 +96,10 @@ class Parser:
     def expression(self) -> Formula:
         self.spaces()
 
-        parent = self.formula()
+        expression = []
+        operators = []
+
+        expression.append(self.formula())
         while True:
             self.spaces()
 
@@ -106,13 +116,26 @@ class Parser:
             if operator.lower() not in OPERATORS_WTIH_TWO_ARGUMENTS_MAP:
                 raise self.reader.syntax_error(f"Unknown operator: {operator}")
 
+            operators.append(OPERATORS_WTIH_TWO_ARGUMENTS_MAP[operator.lower()])
+
             self.spaces()
-            child = self.formula()
+            expression.append(self.formula())
 
-            # Create a new parent where left child is the previous parent and right child is the formula next to the operator
-            parent = OPERATORS_WTIH_TWO_ARGUMENTS_MAP[operator.lower()]([parent, child])
+        # Process operators in their order
+        for operator in OPERATORS_ORDER:
+            offset = 0
+            while offset < len(operators):
+                # If operator is valid then join left and right formulas into a new formula
+                if operators[offset] == operator:
+                    # Replace left formula with the new one
+                    expression[offset] = operator([expression[offset], expression[offset + 1]])
+                    # Remove right formula
+                    del expression[offset + 1]
+                    del operators[offset]
+                else:
+                    offset += 1
 
-        return parent
+        return expression[0]
 
     def assert_literal(self, word, length):
         # Literal must start with a letter, not a digit
