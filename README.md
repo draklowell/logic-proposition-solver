@@ -22,7 +22,6 @@ You can use parenthesis to group formulas
 ```
 ( a -> b ) /\ ( b \/ c ) == (!c -> a)
 ```
-
 #### Getting truth table
 ```bash
 $ python3 solve-logic-proposition.py truth-table
@@ -32,6 +31,10 @@ $ python3 solve-logic-proposition.py truth-table
 Atom values are typed in stdin on the next line after proposition
 ```bash
 $ python3 solve-logic-proposition.py evaluate
+```
+##### Atom values example
+```
+a !b !c d !e
 ```
 
 #### Check for tautology
