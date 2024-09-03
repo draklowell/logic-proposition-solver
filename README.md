@@ -4,7 +4,7 @@
 | :- | :- |
 | Negation | `!` `not` `¬` `~` |
 | Conjunction | `/\` `and` `∧` `·` `.` `&` `&&` |
-| Disjunction | `\/` `or` `∨` `+` `∥` `||` `|` |
+| Disjunction | `\/` `or` `∨` `+` `∥` `\|\|` `\|` |
 | Exclusive disjunction | `xor` `^` `⊕` `⊻` `↮` `≢` |
 | Implication  | `->` `>` `impl` `implies` `⇒` `→` `⊃` |
 | Equivalence | `<->` `<>` `=` `==` `eq` `equals` `≡` `∷` `::` `⇔` `↔` `~` `⟚` |
