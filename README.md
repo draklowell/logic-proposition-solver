@@ -15,20 +15,24 @@
 | False | `F` `0` `⊥` |
 
 ## Usage
-Every logic proposition is typed in stdin
+Every logic proposition is typed in stdin\
+You can use parenthesis to group formulas
 
-### Getting truth table
+#### Example of the logic proposition
+`( a -> b ) /\ ( b \/ c ) == (!c -> a)`
+
+#### Getting truth table
 ```bash
 $ python3 solve-logic-proposition.py truth-table
 ```
 
-### Evaluating proposition
+#### Evaluating proposition
 Atom values are typed in stdin on the next line after proposition
 ```bash
 $ python3 solve-logic-proposition.py evaluate
 ```
 
-### Check for tautology
+#### Check for tautology
 ```bash
 $ python3 solve-logic-proposition.py is-tautology
 ```
