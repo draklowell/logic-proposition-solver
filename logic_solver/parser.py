@@ -2,8 +2,8 @@ import string
 
 from logic_solver.reader import ParseEOFError, Reader
 from logic_solver.syntax_tree import (Atom, Conjunction, Constant, Disjunction,
-                                      Equivalence, Formula, Implication,
-                                      Negation, ExclusiveDisjunction)
+                                      Equivalence, ExclusiveDisjunction,
+                                      Formula, Implication, Negation)
 
 # There are two types of words:
 # text - consist of ascii letters and digits ( but don't start with a digit )
@@ -128,7 +128,9 @@ class Parser:
                 # If operator is valid then join left and right formulas into a new formula
                 if operators[offset] == operator:
                     # Replace left formula with the new one
-                    expression[offset] = operator([expression[offset], expression[offset + 1]])
+                    expression[offset] = operator(
+                        [expression[offset], expression[offset + 1]]
+                    )
                     # Remove right formula
                     del expression[offset + 1]
                     del operators[offset]
