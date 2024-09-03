@@ -15,11 +15,13 @@
 | False | `F` `0` `⊥` |
 
 ## Usage
-Every logic proposition is typed in stdin\
-You can use parenthesis to group formulas
+Every logic proposition is typed in stdin
 
 #### Example of the logic proposition
-`( a -> b ) /\ ( b \/ c ) == (!c -> a)`
+You can use parenthesis to group formulas
+```
+( a -> b ) /\ ( b \/ c ) == (!c -> a)
+```
 
 #### Getting truth table
 ```bash
