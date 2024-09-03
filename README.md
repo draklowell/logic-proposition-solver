@@ -4,7 +4,7 @@
 | :- | :- |
 | Negation | `!` `not` `¬` `~` |
 | Conjunction | `/\` `and` `∧` `·` `.` `&` `&&` |
-| Disjunction | `\/` `or` `∨` `+` `∥` `||` `|` |
+| Disjunction | `\/` `or` `∨` `+` `∥` `\|\|` `\|` |
 | Exclusive disjunction | `xor` `^` `⊕` `⊻` `↮` `≢` |
 | Implication  | `->` `>` `impl` `implies` `⇒` `→` `⊃` |
 | Equivalence | `<->` `<>` `=` `==` `eq` `equals` `≡` `∷` `::` `⇔` `↔` `~` `⟚` |
@@ -17,18 +17,27 @@
 ## Usage
 Every logic proposition is typed in stdin
 
-### Getting truth table
+#### Example of the logic proposition
+You can use parenthesis to group formulas
+```
+( a -> b ) /\ ( b \/ c ) == (!c -> a)
+```
+#### Getting truth table
 ```bash
 $ python3 solve-logic-proposition.py truth-table
 ```
 
-### Evaluating proposition
+#### Evaluating proposition
 Atom values are typed in stdin on the next line after proposition
 ```bash
 $ python3 solve-logic-proposition.py evaluate
 ```
+##### Atom values example
+```
+a !b !c d !e
+```
 
-### Check for tautology
+#### Check for tautology
 ```bash
 $ python3 solve-logic-proposition.py is-tautology
 ```
@@ -38,5 +47,5 @@ $ python3 solve-logic-proposition.py is-tautology --inverse
 ```
 
 ## Known issues
-- When typing not operator ( code word like ! ) after other operator ( code like /\ ) without space, solver will think that it is a single whole operator ( like /\! ) and raise an exception
+- When typing not operator ( code word like ! ) after other operator ( code like /\\ ) without space, solver will think that it is a single whole operator ( like /\\! ) and raise an exception
 - There may be some problems with exceptions ( not tested )
