@@ -44,5 +44,5 @@ $ python3 solve-logic-proposition.py is-tautology --inverse
 ```
 
 ## Known issues
-- When typing not operator ( code word like ! ) after other operator ( code like /\ ) without space, solver will think that it is a single whole operator ( like /\! ) and raise an exception
+- When typing not operator ( code word like ! ) after other operator ( code like /\\ ) without space, solver will think that it is a single whole operator ( like /\\! ) and raise an exception
 - There may be some problems with exceptions ( not tested )
