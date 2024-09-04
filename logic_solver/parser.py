@@ -10,30 +10,30 @@ from logic_solver.syntax_tree import (Atom, Conjunction, Constant, Disjunction,
 # code - consist of any characters except for text ones and parenthesis
 #
 # Spaces work as delimiters
-CHARS_SPACE = " \t\n\r"
-CHARS_TEXT = string.ascii_letters + string.digits
-CHARS_SPECIAL = "()"
-CHARS_LITERAL_START = string.ascii_letters
+CHARS_SPACE = set(" \t\n\r")
+CHARS_LITERAL_START = set(string.ascii_letters)
+CHARS_TEXT = CHARS_LITERAL_START | set(string.digits)
+CHARS_SPECIAL = set("()")
+CHARS_NOT_CODE_WORD = CHARS_SPACE | CHARS_TEXT | CHARS_SPECIAL
 
-WORDS_TRUE = ["T", "1", "⊤"]
-WORDS_FALSE = ["F", "0", "⊥"]
-WORDS_NOT = ["!", "not", "¬", "~"]
+WORDS_TRUE = {"T", "1", "⊤"}
+WORDS_FALSE = {"F", "0", "⊥"}
+WORDS_NOT = {"!", "not", "¬", "~"}
 OPERATORS_WTIH_TWO_ARGUMENTS = [
-    (["/\\", "and", "∧∧", "·", ".", "&", "&&"], Conjunction),
-    (["\\/", "or", "∨", "+", "∥", "||", "|"], Disjunction),
-    (["xor", "^", "⊕", "⊻", "↮", "≢"], ExclusiveDisjunction),
-    (["->", ">", "impl", "implies", "⇒", "→", "⊃"], Implication),
+    ({"/\\", "and", "∧∧", "·", ".", "&", "&&"}, Conjunction),
+    ({"\\/", "or", "∨", "+", "∥", "||", "|"}, Disjunction),
+    ({"xor", "^", "⊕", "⊻", "↮", "≢"}, ExclusiveDisjunction),
+    ({"->", ">", "impl", "implies", "⇒", "→", "⊃"}, Implication),
     (
-        ["<->", "<>", "=", "==", "eq", "equals", "≡", "∷", "::", "⇔", "↔", "~", "⟚"],
+        {"<->", "<>", "=", "==", "eq", "equals", "≡", "∷", "::", "⇔", "↔", "~", "⟚"},
         Equivalence,
     ),
 ]
 OPERATORS_ORDER = [
-    Conjunction,
-    Disjunction,
-    ExclusiveDisjunction,
-    Implication,
-    Equivalence,
+    {Conjunction},
+    {Disjunction},
+    {Implication},
+    {Equivalence, ExclusiveDisjunction},
 ]
 
 # Create map "word -> formula class" from lists of words
@@ -72,7 +72,7 @@ class Parser:
         result = ""
         while (
             not self.reader.is_eof()
-            and self.reader.read() not in CHARS_SPACE + CHARS_TEXT + CHARS_SPECIAL
+            and self.reader.read() not in CHARS_NOT_CODE_WORD
         ):
             result += self.reader.read()
             self.reader.forward()
@@ -122,13 +122,13 @@ class Parser:
             expression.append(self.formula())
 
         # Process operators in their order
-        for operator in OPERATORS_ORDER:
+        for order in OPERATORS_ORDER:
             offset = 0
             while offset < len(operators):
                 # If operator is valid then join left and right formulas into a new formula
-                if operators[offset] == operator:
+                if operators[offset] in order:
                     # Replace left formula with the new one
-                    expression[offset] = operator(
+                    expression[offset] = operators[offset](
                         [expression[offset], expression[offset + 1]]
                     )
                     # Remove right formula
@@ -136,6 +136,9 @@ class Parser:
                     del operators[offset]
                 else:
                     offset += 1
+        
+        if operators:
+            raise self.reader.syntax_error("Unknown operator unparsed, report this error please: " + ", ".join(operators))
 
         return expression[0]
 
