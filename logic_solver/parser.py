@@ -20,7 +20,7 @@ WORDS_TRUE = {"T", "1", "⊤"}
 WORDS_FALSE = {"F", "0", "⊥"}
 WORDS_NOT = {"!", "not", "¬", "~"}
 OPERATORS_WTIH_TWO_ARGUMENTS = [
-    ({"/\\", "and", "∧∧", "·", ".", "&", "&&"}, Conjunction),
+    ({"/\\", "and", "∧", "·", ".", "&", "&&"}, Conjunction),
     ({"\\/", "or", "∨", "+", "∥", "||", "|"}, Disjunction),
     ({"xor", "^", "⊕", "⊻", "↮", "≢"}, ExclusiveDisjunction),
     ({"->", ">", "impl", "implies", "⇒", "→", "⊃"}, Implication),
